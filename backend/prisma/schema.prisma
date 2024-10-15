@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userId       Int            @id @default(autoincrement())
+  fullName     String         @db.VarChar(255)
+  email        String         @unique @db.VarChar(255)
+  password     String         @db.VarChar(18)
+  bio          String?        @db.Text
+  profilePic   String?        @db.VarChar(255) // URL de la imagen de perfil
+  recipes      Recipe[]       // Relación uno a muchos con recetas
+  comments     Comment[]      // Relación uno a muchos con comentarios
+  favorites    Favorite[]     // Relación uno a muchos con favoritos
+  shoppingLists ShoppingList[] // Relación uno a muchos con listas de compras
+}
+
+model Recipe {
+  recipeId     Int            @id @default(autoincrement())
+  title        String         @db.VarChar(255)
+  description  String         @db.Text
+  preparation  String         @db.Text
+  cookingTime  Int            // Tiempo de cocción en minutos
+  servings     Int
+  imageUrl     String?        @db.VarChar(255) // URL de la imagen de la receta
+  categoryId   Int
+  userId       Int            // Creador de la receta
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  user         User           @relation(fields: [userId], references: [userId])
+  category     Category       @relation(fields: [categoryId], references: [categoryId])
+  comments     Comment[]      // Relación uno a muchos con comentarios
+  favorites    Favorite[]     // Relación uno a muchos con favoritos
+}
+
+model Category {
+  categoryId   Int            @id @default(autoincrement())
+  name         String         @unique @db.VarChar(255)
+  recipes      Recipe[]       // Relación uno a muchos con recetas
+}
+
+model Comment {
+  commentId    Int            @id @default(autoincrement())
+  description  String         @db.VarChar(255)
+  userId       Int
+  recipeId     Int
+  createdAt    DateTime       @default(now())
+
+  user         User           @relation(fields: [userId], references: [userId])
+  recipe       Recipe         @relation(fields: [recipeId], references: [recipeId])
+}
+
+model Favorite {
+  favoriteId   Int            @id @default(autoincrement())
+  userId       Int
+  recipeId     Int
+  createdAt    DateTime       @default(now())
+
+  user         User           @relation(fields: [userId], references: [userId])
+  recipe       Recipe         @relation(fields: [recipeId], references: [recipeId])
+}
+
+model ShoppingList {
+  shoppingListId Int          @id @default(autoincrement())
+  userId         Int
+  name           String       @db.VarChar(255)
+  items          ShoppingListItem[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  user           User         @relation(fields: [userId], references: [userId])
+}
+
+model ShoppingListItem {
+  itemId        Int           @id @default(autoincrement())
+  shoppingListId Int
+  ingredient    String        @db.VarChar(255)
+  quantity      String        @db.VarChar(50)
+  purchased     Boolean       @default(false)
+
+  shoppingList  ShoppingList  @relation(fields: [shoppingListId], references: [shoppingListId])
+}
