@@ -1,4 +1,4 @@
-import AuthDynamic from "../../components/auth/authlayoutDynamic";
+import AuthDynamic from "../../components/auth/AuthlayoutDynamic";
 import { layout } from "@/utils/types/types";
 
 export default function AuthLayout({ children }: layout) {
