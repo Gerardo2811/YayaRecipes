@@ -2,7 +2,7 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Image from "next/image";
-import logo from "../../assets/general/logoYaya.webp";
+import logo from "../../assets/general/logo.png";
 
 
 export default function LoginForm() {
@@ -32,7 +32,7 @@ export default function LoginForm() {
         <input
           type="email"
           id="email"
-          className={`w-full px-4 py-2 border ${formik.touched.email && formik.errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-borderColorInputs`}
+          className={`w-full px-4 py-2 border ${formik.touched.email && formik.errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary`}
           {...formik.getFieldProps('email')}
           
         />
@@ -47,7 +47,7 @@ export default function LoginForm() {
         <input
           type="password"
           id="password"
-          className={`w-full px-4 py-2 border  ${formik.touched.password && formik.errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-borderColorInputs`}
+          className={`w-full px-4 py-2 border  ${formik.touched.password && formik.errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary`}
           {...formik.getFieldProps('password')}
         />
       </div>
@@ -56,7 +56,7 @@ export default function LoginForm() {
       ): null}
       <button
         type="submit"
-        className="w-full mt-2 bg-buttonsColor text-white py-2 rounded-lg hover:bg-buttonsColorHover"
+        className="w-full mt-2 bg-primary text-white py-2 rounded-lg hover:bg-accent"
       >
         Acceder
       </button>

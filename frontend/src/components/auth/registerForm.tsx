@@ -29,7 +29,7 @@ export default function RegisterForm() {
         <input
           type="text"
           id="fullName"
-          className={`w-full px-4 py-2 border border-gray-300 ${formik.touched.fullName && formik.errors.fullName ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-borderColorInputs`}
+          className={`w-full px-4 py-2 border border-gray-300 ${formik.touched.fullName && formik.errors.fullName ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary`}
           {...formik.getFieldProps("fullName")}
         />
       </div>
@@ -41,7 +41,7 @@ export default function RegisterForm() {
         <input
           type="email"
           id="email"
-          className={`w-full px-4 py-2 border ${formik.touched.email && formik.errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-borderColorInputs`}
+          className={`w-full px-4 py-2 border ${formik.touched.email && formik.errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary`}
           {...formik.getFieldProps('email')}
           
         />
@@ -56,7 +56,7 @@ export default function RegisterForm() {
         <input
           type="password"
           id="password"
-          className={`w-full px-4 py-2 border  ${formik.touched.password && formik.errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-borderColorInputs`}
+          className={`w-full px-4 py-2 border  ${formik.touched.password && formik.errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary`}
           {...formik.getFieldProps('password')}
         />
       </div>
@@ -65,7 +65,7 @@ export default function RegisterForm() {
       ): null}
       <button
         type="submit"
-        className="w-full mt-2 bg-buttonsColor text-white py-2 rounded-lg hover:bg-buttonsColorHover"
+        className="w-full mt-2 bg-primary text-white py-2 rounded-lg hover:bg-accent"
       >
         Registrarse
       </button>
