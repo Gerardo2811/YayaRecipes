@@ -1,6 +1,8 @@
 "use client"
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { IoIosPersonAdd } from "react-icons/io";
+
 export default function RegisterForm() {
 
     const formik = useFormik({
@@ -21,6 +23,7 @@ export default function RegisterForm() {
 
     return <>
       <form className="w-full max-w-md p-8 shadow-lg rounded-lg">
+        <IoIosPersonAdd className='text-black m-auto' size={75}/>
       <h2 className="text-2xl font-bold mb-6 text-black text-center">Registro</h2>
       <div className="mb-4">
         <label className="block text-sm font-medium mb-2 text-black">
