@@ -12,7 +12,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false); // Estado para el menú desplegable
 
   return (
-    <nav className="bg-secondary px-4 py-2 md:py-4 px-0 pt-0 rounded-b-lg md:flex md:items-center">
+    <nav className="bg-secondary  md:py-4 px-0 pt-0 rounded-b-lg md:flex md:items-center">
       {/* Logo */}
       <div className={`flex justify-between items-center px-2 py-2 ${isOpen ? "bg-primary " : "bg-secondary "}`}>
         <Link href="/" aria-label="YayaRecipes Home">
