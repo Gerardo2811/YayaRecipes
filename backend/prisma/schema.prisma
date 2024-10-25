@@ -17,7 +17,7 @@ model User {
   userId       Int            @id @default(autoincrement())
   fullName     String         @db.VarChar(255)
   email        String         @unique @db.VarChar(255)
-  password     String         @db.VarChar(18)
+  password     String         @db.VarChar(255)
   bio          String?        @db.Text
   profilePic   String?        @db.VarChar(255) // URL de la imagen de perfil
   recipes      Recipe[]       // Relación uno a muchos con recetas

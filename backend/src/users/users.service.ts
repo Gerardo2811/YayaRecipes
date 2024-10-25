@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { createUserDto } from './dto/create-user.dto';
 import { updateUserDto } from './dto/update-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -38,16 +39,19 @@ export class UsersService {
 
   async createUser(user: createUserDto) {
     try {
+      // Encripta la contraseña antes de guardarla en la base de datos
+      const hashedPassword = await bcrypt.hash(user.password, 10);
+
       const createdUser = await this.prisma.user.create({
         data: {
           fullName: user.fullName,
           email: user.email,
-          password: user.password,
+          password: hashedPassword, // Guarda la contraseña encriptada
           bio: user.bio,
           profilePic: user.profilePic,
         },
       });
-      return { message: 'User created succesufly', data: createdUser };
+      return { message: 'User created successfully', data: createdUser };
     } catch (error) {
       throw new HttpException(
         'Failed to create user',
