@@ -1,9 +1,9 @@
-"use client"
+"use client";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Image from "next/image";
 import logo from "../../assets/general/logo.png";
-
+import { login } from "../../utils/api/authFetch"; // Importa la función de login
 
 export default function LoginForm() {
 
@@ -14,10 +14,20 @@ export default function LoginForm() {
     },
     validationSchema: Yup.object({
       email: Yup.string().email('Correo electrónico inválido').required('El correo es requerido'),
-      password: Yup.string().min(6, 'Debe tener mínimo 8 caracteres').required('La contraseña es requerida'),
+      password: Yup.string().min(6, 'Debe tener mínimo 6 caracteres').required('La contraseña es requerida'),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const response = await login(values.email, values.password);
+        console.log('Inicio de sesión exitoso:', response);
+
+        // Redirigir a una página después de iniciar sesión
+        window.location.href = '/'; // Puedes cambiar la ruta según sea necesario
+
+      } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+        // Mostrar error al usuario (opcional)
+      }
     },
   });
 
@@ -34,7 +44,6 @@ export default function LoginForm() {
           id="email"
           className={`w-full px-4 py-2 border ${formik.touched.email && formik.errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary`}
           {...formik.getFieldProps('email')}
-          
         />
         {formik.touched.email && formik.errors.email ? (
           <div className="text-red-500 text-sm mt-1">{formik.errors.email}</div>
@@ -50,10 +59,10 @@ export default function LoginForm() {
           className={`w-full px-4 py-2 border  ${formik.touched.password && formik.errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary`}
           {...formik.getFieldProps('password')}
         />
+        {formik.touched.password && formik.errors.password ? (
+          <div className='text-red-500 text-sm mt-1'>{formik.errors.password}</div>
+        ) : null}
       </div>
-      { formik.touched.password && formik.errors.password ? (
-        <div className='text-red-500 text-sm mt-1'>{formik.errors.password}</div>
-      ): null}
       <button
         type="submit"
         className="w-full mt-2 bg-primary text-white py-2 rounded-lg hover:bg-accent"

@@ -1,18 +1,24 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logo from "../../assets/general/logo.png";
-import { FaHome, FaQuestion, FaRegistered  } from "react-icons/fa";
+import { FaHome, FaQuestion, FaRegistered, FaUserCircle } from "react-icons/fa";
 import { IoDocument, IoLogIn } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
-
+import { isUserLoggedIn } from "../../utils/api/authFetch"; // Importa la función de verificación
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false); // Estado para el menú desplegable
+  const [isLogin, setIsLogin] = useState(false); // Estado para verificar si el usuario está logueado
+
+  useEffect(() => {
+    const loggedIn = isUserLoggedIn(); // Verifica si el usuario está logueado
+    setIsLogin(loggedIn);
+  }, []);
 
   return (
-    <nav className="bg-secondary  md:py-4 px-0 pt-0 rounded-b-lg md:flex md:items-center">
+    <nav className="bg-secondary md:py-4 px-0 pt-0 rounded-b-lg md:flex md:items-center">
       {/* Logo */}
       <div className={`flex justify-between items-center px-2 py-2 ${isOpen ? "bg-primary " : "bg-secondary "}`}>
         <Link href="/" aria-label="YayaRecipes Home">
@@ -28,17 +34,11 @@ export default function Navbar() {
           className="md:hidden text-black mr-2"
           onClick={() => setIsOpen(!isOpen)} // Toggle el menú desplegable
           size={30}
-        >
-          &#9776;
-        </GiHamburgerMenu>
+        />
       </div>
 
-      {/* Links del menú, visibles según el tamaño de la pantalla */}
-      <ul
-        className={`${
-          isOpen ? "block" : "hidden"
-        } md:flex space-y-2 md:space-y-0 md:space-x-8 text-black mt-4 md:mt-0 p-2`}
-      >
+      {/* Links del menú */}
+      <ul className={`${isOpen ? "block" : "hidden"} md:flex space-y-2 md:space-y-0 md:space-x-8 text-black mt-4 md:mt-0 p-2`}>
         <li>
           <Link href="/" className="hover:text-primary">
             <div className="flex space-x-10 m-4">
@@ -50,7 +50,8 @@ export default function Navbar() {
         <li>
           <Link href="/about" className="hover:text-primary">
             <div className="flex space-x-10 m-4">
-              <FaQuestion className="mr-2" size={20} />A cerca de
+              <FaQuestion className="mr-2" size={20} />
+              Acerca de
             </div>
           </Link>
         </li>
@@ -64,30 +65,33 @@ export default function Navbar() {
         </li>
       </ul>
 
-      {/* Links de usuario, también responsivos */}
-      <ul
-        className={`${
-          isOpen ? "block" : "hidden"
-        } md:flex space-y-2 md:space-y-0 md:space-x-6 text-black ml-auto mt-4 md:mt-0 p-2`}
-      >
+      {/* Links de usuario */}
+      {
+            isLogin ? (
+              <FaUserCircle className="ml-auto mr-4 text-black" size={50} />
+            ) : (
+      <ul className={`${isOpen ? "block" : "hidden"} md:flex space-y-2 md:space-y-0 md:space-x-6 text-black ml-auto mt-4 md:mt-0 p-2`}>
         <li>
-          <Link href="/auth/register" className="hover:text-primary ">
-
+          <Link href="/auth/register" className="hover:text-primary">
             <div className="flex space-x-10 m-4">
-              <FaRegistered className="mr-2" size={20}/>
+              <FaRegistered className="mr-2" size={20} />
               Registrarse
             </div>
           </Link>
         </li>
         <li>
-          <Link href="/auth/login" className="hover:text-primary">
-            <div className="flex space-x-10 m-4">
-              <IoLogIn className="mr-2" size={25}/>
-              Iniciar sesión
-            </div>
-          </Link>
+          
+              <Link href="/auth/login" className="hover:text-primary">
+                <div className="flex space-x-10 m-4">
+                  <IoLogIn className="mr-2" size={25} />
+                  Iniciar sesión
+                </div>
+              </Link>
+          
         </li>
       </ul>
+        )
+      }
     </nav>
   );
 }
